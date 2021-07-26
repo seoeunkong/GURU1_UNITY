@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - Floor
-  - Weapon
   layers:
   - Default
   - TransparentFX
