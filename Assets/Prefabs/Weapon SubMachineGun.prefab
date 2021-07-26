@@ -4909,7 +4909,6 @@ GameObject:
   - component: {fileID: 2334062052543379815}
   - component: {fileID: 2334062052543379809}
   - component: {fileID: 2334062052543379808}
-  - component: {fileID: 2334062052543379814}
   m_Layer: 0
   m_Name: Weapon SubMachineGun
   m_TagString: Gun
@@ -4976,20 +4975,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.4
   m_Center: {x: 0, y: -0.5, z: 0}
---- !u!114 &2334062052543379814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2881354390215524012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c664a6e2bfc0044459762ba98a823817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 1
-  value: 0
 --- !u!1 &7175490389133605533
 GameObject:
   m_ObjectHideFlags: 0

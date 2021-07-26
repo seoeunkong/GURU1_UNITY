@@ -16,8 +16,9 @@ public class Player : MonoBehaviour
     bool jDown;
     bool isDown1;
     bool isDown2;
-
     bool isJump;
+    bool isFireReady;
+    bool isChange;
 
     //중력 변수
     public float gravity = -20.0f;
@@ -30,8 +31,10 @@ public class Player : MonoBehaviour
 
     //트리거된 무기를 저장하기 위한 변수
     GameObject nearweapon;
-    GameObject equipWeapon; //이미 갖고있는 무기
+    Weapons equipWeapon; //이미 갖고있는 무기
     int equipWeaponIndex;
+
+    float fireDelay;
 
     void Awake()
     {
@@ -49,6 +52,7 @@ public class Player : MonoBehaviour
         moveVec.y = yVelocity;
         w_Interation();
         Change(); //무기 교체
+        Attack(); //공격
     }
 
     void GetInput()
@@ -96,7 +100,7 @@ public class Player : MonoBehaviour
         {
             if (nearweapon.tag == "Weapon") //무기와 닿으면
             {
-                Weapons w = nearweapon.GetComponent<Weapons>();
+                NotUseWeapons w = nearweapon.GetComponent<NotUseWeapons>();
                 int weaponIndex = w.value;
                 hasWeapons[weaponIndex] = true; //헤당 번호의 무기를 갖고 있는 것으로 설정
 
@@ -112,21 +116,45 @@ public class Player : MonoBehaviour
         if (isDown2) weaponIndex = 1;
 
         //갖고 있는 무기가 없는 상황에서 무기가 교체되는 것을 방지
-        if (isDown1 && (!hasWeapons[0] || equipWeaponIndex == 0))
-            return;     
-        if (isDown2 && (!hasWeapons[1] || equipWeaponIndex == 1))
+        if (isDown1 && (!hasWeapons[0] ))
+        {
+            Debug.Log(equipWeaponIndex);
+            return;
+        }
+        if (isDown2 && (!hasWeapons[1] ))
             return;
 
         if ((isDown1 || isDown2) && !isJump) //숫자1 또는 2를 누르는 경우에(점프하는 경우엔 제외) 무기 활성화
         {
             if (equipWeapon != null) //손에 무기가 겹치게 드는 것을 방지
             {
-                equipWeapon.SetActive(false);
+                equipWeapon.gameObject.SetActive(false);
             }
             equipWeaponIndex = weaponIndex;
-            equipWeapon = weapons[weaponIndex];
-            equipWeapon.SetActive(true);
+            equipWeapon = weapons[weaponIndex].GetComponent<Weapons>();
+            equipWeapon.gameObject.SetActive(true);
+
+           
         }
+    }
+
+    void Attack()
+    {
+        if (equipWeapon == null)
+            return;
+
+        //공격가능 여부확인
+        //fireDelay += Time.deltaTime;
+        //isFireReady = equipWeapon.rate < fireDelay;
+
+        if (Input.GetMouseButtonDown(0)) //왼쪽 마우스 누르면 총 발사
+        {
+            equipWeapon.Use();
+            anim.SetTrigger("doShot");
+            //fireDelay = 0;
+        }
+
+       
     }
 
     private void OnCollisionEnter(Collision collision)
