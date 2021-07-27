@@ -13,13 +13,19 @@ public class Player : MonoBehaviour
     bool isJump;
     bool sDown1; //숫자 1를 눌렀을때
     bool sDown2; //숫자 2를 눌렀을때
+    bool gun=false;
+    bool grenade=false;
 
     //플레이어 무기 관련 배열
     public GameObject[] weapons;
     public bool[] hasWeapons;
+    public int hasGrenade;
+    public GameObject grenadeObj; //수류탄 오브젝트
+    public float throwPower = 10.0f; //발사할 힘
+    public Transform grenadePos; //발사위치
 
-    public int health;
-    public int maxHealth;
+    public int Stress;
+    public int maxStress;
 
     //중력 변수
     public float gravity = -20.0f;
@@ -33,6 +39,8 @@ public class Player : MonoBehaviour
     GameObject nearWeapon; //트리거된 무기들을 저장하기 위한 변수
     Weapon equipWeapon; //기존에 장착된 무기를 저장하는 변수
     int equipWeaponIndex=-1;
+
+    
    
 
     void Awake()
@@ -52,6 +60,7 @@ public class Player : MonoBehaviour
         Interaction_W();//무기 상호작용
         Swap();
         Attack();
+       
     }
     void GetInput()
     {
@@ -107,8 +116,19 @@ public class Player : MonoBehaviour
 
         int weaponIndex = -1;
         //숫자 1을 누르면 총, 숫자2를 누르면 수류탄
-        if (sDown1) weaponIndex = 0;
-        if (sDown2) weaponIndex = 1;
+        if (sDown1)
+        {
+            gun = true;
+            grenade = false;
+            weaponIndex = 0;
+        }
+        if (sDown2)
+        {
+            gun = false;
+            grenade = true;
+            weaponIndex = 1;
+        }
+
 
         //1,2를 누르면 무기가 보이게 함.
         if (sDown1 || sDown2)
@@ -128,12 +148,37 @@ public class Player : MonoBehaviour
     {
         if (equipWeapon == null) //무기를 갖고 있는 경우에만 실행
             return;
-        if (Input.GetMouseButtonDown(0))
+
+        if (Input.GetMouseButtonDown(0)&&(gun==true)) //마우스 좌클릭과 동시에 손에 총이 있는 경우
         {
             equipWeapon.Use();
             anim.SetTrigger("doShot");
         }
+
+        if (Input.GetMouseButtonDown(0) && (grenade == true)) //마우스 좌클릭과 동시에 손에 수류탄이 있는 경우
+        {
+            GameObject bomb = Instantiate(grenadeObj);
+            bomb.transform.position = grenadePos.position;
+
+            Rigidbody rb = bomb.GetComponent<Rigidbody>();
+            rb.AddForce(Camera.main.transform.forward * throwPower, ForceMode.Impulse);
+
+           
+
+            //마우스 위치로 던지기
+            /*
+            Ray ray = followCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit rayHit;
+            if(Physics.Raycast(ray,out rayHit, 100))
+            {
+                Vector3 nextVec = rayHit.point - transform.position;
+                nextVec.y = 0;
+            }
+            */
+        }
     }
+
+    
 
     void Interaction_W() //닿은 무기들을 배열에 저장
     {
@@ -169,17 +214,17 @@ public class Player : MonoBehaviour
             Item item = other.GetComponent<Item>();
             switch (item.type)
             {
-                //아이템 스크립트에서 지정한 타입과 value 값에 따라 health 가 늘어남
-                //health 가 maxhealth를 넘어서면 health 값이 maxhealth 값이 됨
+                //아이템 스크립트에서 지정한 타입과 value 값에 따라 stress 수치가 떨어짐
+                //stress 가 maxstress를 넘어서면 0으로 고정
                 case Item.Type.Ammo:
-                    health += item.value;
-                    if (health > maxHealth)
-                        health = maxHealth;
+                    Stress -= item.value;
+                    if (Stress < 0)
+                        Stress = 0;                   
                     break;
                 case Item.Type.Heart:
-                    health += item.value;
-                    if (health > maxHealth)
-                        health = maxHealth;
+                    Stress -= item.value;
+                    if (Stress < 0)
+                        Stress = 0;
                     break;
             }
             //아이템은 닿으면 사라짐
