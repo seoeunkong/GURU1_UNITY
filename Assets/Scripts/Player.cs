@@ -23,6 +23,9 @@ public class Player : MonoBehaviour
 
     Rigidbody rigid;
     Animator anim;
+
+    GameObject nearObject; //트리거된 무기들을 저장하기 위한 변수
+
     void Awake()
     {
         rigid = GetComponent<Rigidbody>();
