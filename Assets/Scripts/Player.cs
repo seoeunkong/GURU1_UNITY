@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     //플레이어 무기 관련 배열
     public GameObject[] weapons;
     public bool[] hasWeapons;
-    public int hasGrenade;
+    public int hasGrenade; //수류탄 갯수
     public GameObject grenadeObj; //수류탄 오브젝트
     public float throwPower = 30.0f; //발사할 힘
     public Transform grenadePos; //발사위치
@@ -46,15 +46,8 @@ public class Player : MonoBehaviour
     public GameObject crossHair_Sniper; //스나이퍼
     bool crossHair_G; //일반
     bool crossHair_S; //스나이퍼
+    bool isZoom=false;
 
-    //게임 모드
-    enum WeaponMode
-    {
-        General,
-        Sniper
-    }
-
-    WeaponMode wMode;
    
 
     void Awake()
@@ -75,7 +68,7 @@ public class Player : MonoBehaviour
         Interaction_W();//무기 상호작용
         Swap();
         Attack();
-        Cross();
+        Cross(); //조준선 기능
 
     }
     void GetInput()
@@ -161,6 +154,19 @@ public class Player : MonoBehaviour
             equipWeapon = weapons[weaponIndex].GetComponent<Weapon>();
             equipWeapon.gameObject.SetActive(true); // 손에 쥐고 있는 무기를 활성화하여 보이게함.
         }
+
+        if (hasGrenade < 0) //수류탄이 0개 미만이라면 
+        {
+            grenade = false; //수류탄 사용 못함.
+            hasGrenade = 0; //다시 개수를 0으로 초기화
+        }
+        else if (hasGrenade == 0) // 수류탄이 0개라면
+        {
+            grenade = false; //수류탄 사용 못함.
+        }
+        else //수류탄을 1개 이상으로 소유한 경우
+            grenade = true;
+
     }
 
     void Attack() //공격
@@ -175,26 +181,27 @@ public class Player : MonoBehaviour
         }
 
 
+
             if (Input.GetMouseButtonDown(0) && (grenade == true)) //마우스 좌클릭과 동시에 손에 수류탄이 있는 경우
         {
-           // crossHair.SetActive(false);
-            GameObject bomb = Instantiate(grenadeObj);
-            bomb.transform.position = grenadePos.position;
+            
+                GameObject bomb = Instantiate(grenadeObj); 
+                bomb.transform.position = grenadePos.position;
+                
+              
 
-            Rigidbody rb = bomb.GetComponent<Rigidbody>();
-            rb.AddForce(Camera.main.transform.forward * throwPower, ForceMode.Impulse);
+                Rigidbody rb = bomb.GetComponent<Rigidbody>();
+                rb.AddForce(Camera.main.transform.forward * throwPower, ForceMode.Impulse);
+                Debug.Log(throwPower);
+         
+           
 
-            //마우스 위치로 던지기
-            /*
-            Ray ray = followCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit rayHit;
-            if(Physics.Raycast(ray,out rayHit, 100))
-            {
-                Vector3 nextVec = rayHit.point - transform.position;
-                nextVec.y = 0;
-            }
-            */
+                hasGrenade--; //수류탄을 쓸때마다 개수를 줄임
+            
         }
+
+        
+        
     }
 
     void Cross() //조준선
@@ -203,17 +210,29 @@ public class Player : MonoBehaviour
         {
             crossHair_G = false;
             crossHair_S = true;
+            isZoom = true;
 
         }
-        if (Input.GetMouseButtonUp(1) && (gun == true))
+        if (Input.GetMouseButtonUp(1) && (gun == true)) //오른쪽 마우스를 떼면 다시 일반 모드
         {
             crossHair_G = true;
             crossHair_S = false;
+            isZoom = false;
 
         }
 
         crossHair.SetActive(crossHair_G); //무기를 소유한채로 1번을 누를 경우에만 조준선 활성화
         crossHair_Sniper.SetActive(crossHair_S); //스나이퍼 조준선 활성화
+
+        if (!isZoom)
+        {
+            Camera.main.fieldOfView = 60.0f; //줌
+        }
+        else
+        {
+            Camera.main.fieldOfView = 15.0f; //일반모드
+        }
+
 
     }
 
@@ -222,7 +241,7 @@ public class Player : MonoBehaviour
     {
         if (nearWeapon != null)
         {
-            if (nearWeapon.tag == "Weapon")
+            if (nearWeapon.tag == "Weapon"|| nearWeapon.tag == "Grenade")
             {
                 Item item = nearWeapon.GetComponent<Item>();
                 int weaponIndex = item.value;
@@ -272,18 +291,25 @@ public class Player : MonoBehaviour
 
     void OnTriggerStay(Collider other) //무기 콜라이더에 닿으면(=무기 오브젝트 감지)
     {
-        if (other.tag == "Weapon")
-        {
+        if (other.tag == "Weapon"|| other.tag == "Grenade")
+        {   
             nearWeapon = other.gameObject;
         }
+
+        if (other.tag == "Grenade")
+        {
+            hasGrenade++;
+        }
+       
     }
 
     void OnTriggerExit(Collider other) //무기 콜라이더에서 빠져나오면
     {
-        if (other.tag == "Weapon")
+        if (other.tag == "Weapon" || other.tag == "Grenade")
         {
             nearWeapon = null;
         }
+       
     }
 
     //플레이어가 공격을 받았을 때
