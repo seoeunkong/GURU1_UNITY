@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class Player : MonoBehaviour
     public bool[] hasWeapons;
     public int hasGrenade;
     public GameObject grenadeObj; //수류탄 오브젝트
-    public float throwPower = 10.0f; //발사할 힘
+    public float throwPower = 30.0f; //발사할 힘
     public Transform grenadePos; //발사위치
 
     public int Stress;
@@ -40,11 +41,25 @@ public class Player : MonoBehaviour
     Weapon equipWeapon; //기존에 장착된 무기를 저장하는 변수
     int equipWeaponIndex=-1;
 
-    
+    //조준선
+    public GameObject crossHair; //일반
+    public GameObject crossHair_Sniper; //스나이퍼
+    bool crossHair_G; //일반
+    bool crossHair_S; //스나이퍼
+
+    //게임 모드
+    enum WeaponMode
+    {
+        General,
+        Sniper
+    }
+
+    WeaponMode wMode;
    
 
     void Awake()
     {
+        //crossHair_S = true;
         rigid = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
     }
@@ -60,7 +75,8 @@ public class Player : MonoBehaviour
         Interaction_W();//무기 상호작용
         Swap();
         Attack();
-       
+        Cross();
+
     }
     void GetInput()
     {
@@ -118,17 +134,20 @@ public class Player : MonoBehaviour
         //숫자 1을 누르면 총, 숫자2를 누르면 수류탄
         if (sDown1)
         {
-            gun = true;
+            gun = true; //총 모드 활성화
             grenade = false;
             weaponIndex = 0;
+            crossHair_G = true;
+            crossHair_S = false;
         }
         if (sDown2)
         {
             gun = false;
-            grenade = true;
+            grenade = true; //수류탄 모드 활성화
             weaponIndex = 1;
+            crossHair_G = false;
+            crossHair_S = false;
         }
-
 
         //1,2를 누르면 무기가 보이게 함.
         if (sDown1 || sDown2)
@@ -155,15 +174,15 @@ public class Player : MonoBehaviour
             anim.SetTrigger("doShot");
         }
 
-        if (Input.GetMouseButtonDown(0) && (grenade == true)) //마우스 좌클릭과 동시에 손에 수류탄이 있는 경우
+
+            if (Input.GetMouseButtonDown(0) && (grenade == true)) //마우스 좌클릭과 동시에 손에 수류탄이 있는 경우
         {
+           // crossHair.SetActive(false);
             GameObject bomb = Instantiate(grenadeObj);
             bomb.transform.position = grenadePos.position;
 
             Rigidbody rb = bomb.GetComponent<Rigidbody>();
             rb.AddForce(Camera.main.transform.forward * throwPower, ForceMode.Impulse);
-
-           
 
             //마우스 위치로 던지기
             /*
@@ -178,7 +197,26 @@ public class Player : MonoBehaviour
         }
     }
 
-    
+    void Cross() //조준선
+    {
+        if (Input.GetMouseButton(1) && (gun == true)) //총을 소유한채로 오른쪽 마우스를 꾹 누르면 스나이퍼 모드
+        {
+            crossHair_G = false;
+            crossHair_S = true;
+
+        }
+        if (Input.GetMouseButtonUp(1) && (gun == true))
+        {
+            crossHair_G = true;
+            crossHair_S = false;
+
+        }
+
+        crossHair.SetActive(crossHair_G); //무기를 소유한채로 1번을 누를 경우에만 조준선 활성화
+        crossHair_Sniper.SetActive(crossHair_S); //스나이퍼 조준선 활성화
+
+    }
+
 
     void Interaction_W() //닿은 무기들을 배열에 저장
     {
@@ -246,5 +284,16 @@ public class Player : MonoBehaviour
         {
             nearWeapon = null;
         }
+    }
+
+    //플레이어가 공격을 받았을 때
+    public void OnDamage(int value)
+    {
+        Stress += value;
+        if (Stress> 0)
+        {
+            Stress = 100;
+        }
+        
     }
 }
