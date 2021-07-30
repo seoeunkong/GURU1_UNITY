@@ -12,10 +12,8 @@ public class Weapon : MonoBehaviour
     //총알,탄피관련 변수
     public Transform bulletPos;
     public GameObject bullet;
-    // public Transform bulletCasePos;
-    // public GameObject bulletCase;
-
-    public Transform targetPosition;
+   // public Transform bulletCasePos;
+   // public GameObject bulletCase;
 
     public void Use()
     {
@@ -23,7 +21,6 @@ public class Weapon : MonoBehaviour
         {
             StartCoroutine("Shot"); 
         }
-
     }
 
     IEnumerator Shot()
@@ -32,7 +29,6 @@ public class Weapon : MonoBehaviour
         Rigidbody bulletRigid = intantBullet.GetComponent<Rigidbody>();
         //총알에 속도 적용하기
         bulletRigid.velocity = bulletPos.forward * 50;
-
         yield return null;
     }
 }

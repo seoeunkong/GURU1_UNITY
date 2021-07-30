@@ -4,22 +4,10 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public int damage=5;
-    public Transform targetPosition;
-    
-    void Start()
-    {
-        
-    }
+    public int damage;
 
     void OnCollisionEnter(Collision collision)
     {
         Destroy(gameObject);
     }
-
-    void Update()
-    {
-        
-    }
-
 }
