@@ -109,7 +109,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2590232514868685167}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.5565, y: 3.6240005, z: 26.280582}
+  m_LocalPosition: {x: -9.941993, y: 4.704, z: 21.445633}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6377325192877248092}
@@ -143,7 +143,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.9
+  m_Radius: 3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!96 &7370539124530342055
 TrailRenderer:
@@ -265,5 +265,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosion: {fileID: 1599315238913598529, guid: 46ffadbb188f9ab498b623c4290ef656, type: 3}
-  explosionRadius: 5
-  bombPower: 3
+  explosionRadius: 30
+  bombPower: 10
