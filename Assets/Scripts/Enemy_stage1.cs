@@ -78,7 +78,6 @@ public class Enemy_stage1 : MonoBehaviour
     public GameObject game;
     public int BulletPower;
 
-    public bool attack; //공격여부
 
 
     void Start()
@@ -117,10 +116,10 @@ public class Enemy_stage1 : MonoBehaviour
         switch(enemyState)
         {
             case EnemyState.Idle:
-                Idle();             
+                Idle();
                 break;
             case EnemyState.Move:
-                Move();             
+                Move();
                 break;
             case EnemyState.Attack:
                 Attack();
@@ -191,7 +190,6 @@ public class Enemy_stage1 : MonoBehaviour
             // 내브메쉬 에이전트를 이용하여 타겟 방향으로 이동한다.
             smith.SetDestination(player.transform.position);
             smith.stoppingDistance = attackDistance;
-            
 
         }
         // 공격 범위 안에 들어오면...
@@ -202,7 +200,6 @@ public class Enemy_stage1 : MonoBehaviour
             print("상태 전환 : Move -> Attack");
 
             anim.SetTrigger("MoveToAttackDelay");
-           
 
             // 공격 대기 시간을 미리 누적
             currentTime = attackDelayTime;
@@ -221,35 +218,26 @@ public class Enemy_stage1 : MonoBehaviour
             if (currentTime >= attackDelayTime)
             {
                 currentTime = 0;
-
-                if(currentTime==0)
-                    attack = true;
                 // 플레이어를 공격한다.
                 print("공격!");
-                anim.SetTrigger("StartAttack");
                
+
+                anim.SetTrigger("StartAttack");
+
             }
-            
             else
             {
                 // 시간을 누적한다.
-                attack = false;
                 currentTime += Time.deltaTime;
             }
-            
         }
         else
         {
-           
             // 상태를 이동 상태로 전환한다.
             enemyState = EnemyState.Move;
-           
             print("상태 전환 : Attack -> Move");
-           // attack = false;
-            anim.SetTrigger("AttackToMove");
-           
-            
 
+            anim.SetTrigger("AttackToMove");
         }
         
     }
@@ -329,7 +317,6 @@ public class Enemy_stage1 : MonoBehaviour
     {
         // 캐릭터 컨트롤러를 비활성화한다.
         cc.enabled = false;
-       
 
         // 2초간 기다렸다가 몸체를 제거한다.
         yield return new WaitForSeconds(2.0f);
