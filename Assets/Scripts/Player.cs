@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    
+
     public float speed;
     public float JumpPower;
     bool moving;
@@ -29,7 +31,7 @@ public class Player : MonoBehaviour
     public Transform grenadePos; //발사위치
 
     //스트레스 변수, 최대 스트레스
-    int Stress;
+    public int Stress;
     public int maxStress;
 
     //슬라이더 
@@ -58,6 +60,15 @@ public class Player : MonoBehaviour
     private Camera camera;
     CharacterController cc; //캐릭터 컨트롤러 변수
 
+    GameObject gameObject;
+    GameObject gameObject2;
+    GameObject gameObject3;
+    GameObject gameObject4;
+
+    bool enemy;
+
+    Enemy_stage1 enemy2;
+
     void Awake()
     {
        // rigid = GetComponent<Rigidbody>();
@@ -67,8 +78,14 @@ public class Player : MonoBehaviour
 
         cc = GetComponent<CharacterController>();
 
+        gameObject = GameObject.Find("Fire_Gazer_1");
+        gameObject2 = GameObject.Find("Fire_Gazer_2");
+        gameObject3 = GameObject.Find("Fire_Gazer_3");
+        gameObject4 = GameObject.Find("Fire_Gazer_4");
+
+
         //실험용 50
-        Stress = 50;
+        Stress = 0;
         //Stress=0;
     }
 
@@ -83,6 +100,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        
 
         Swap();
         GetInput();
@@ -94,6 +112,8 @@ public class Player : MonoBehaviour
         
         //슬라이더의 value를 스트레스 비율로 적용한다
         stressSlider.value = (float)Stress / (float)maxStress;
+
+        //myStress(); //공격받을때의 스트레스
     }
 
 
@@ -307,11 +327,15 @@ public class Player : MonoBehaviour
     //플레이어가 Floor로 태그된 물체와 닿으면 착지하는 모션을 멈춤
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Floor")
+        
+        if (collision.gameObject.tag == "Enemy") //닿은 물체가 적이라면
         {
-            anim.SetBool("isJump", true);
-            isJump = false;
+            Debug.Log("stress");
+            myStress();
+            
+           
         }
+       
 
     }
 
@@ -369,10 +393,29 @@ public class Player : MonoBehaviour
     public void OnDamage(int value)
     {
         Stress += value;
-        if (Stress> 0)
+        if (Stress>100)
         {
             Stress = 100;
         }
         
+    }
+
+    void myStress() //플레이어의 스트레스 수치
+    {
+        Enemy_stage1 enemy = gameObject.GetComponent<Enemy_stage1>();
+        
+        enemy2 = gameObject2.GetComponent<Enemy_stage1>();
+        
+        Enemy_stage1 enemy3= gameObject3.GetComponent<Enemy_stage1>();
+        Enemy_stage1 enemy4 = gameObject4.GetComponent<Enemy_stage1>();
+
+        //stage1 몬스터
+
+        if ((enemy.attack == true|| enemy2.attack == true|| enemy3.attack == true|| enemy4.attack == true)) //몬스터가 attack이라는 모션을 취하는 동시에 몬스터와 접촉을 해야 공격을 받음
+        {
+            OnDamage(enemy.attackPower);
+        }
+       
+
     }
 }
