@@ -8,7 +8,7 @@ TagManager:
   - Grenade
   - Item
   - Weapon
-  - Enemy
+  - Monster
   layers:
   - Default
   - TransparentFX
