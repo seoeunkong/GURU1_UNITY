@@ -267,3 +267,4 @@ MonoBehaviour:
   explosion: {fileID: 1599315238913598529, guid: 46ffadbb188f9ab498b623c4290ef656, type: 3}
   explosionRadius: 30
   bombPower: 10
+  boss: {fileID: 1565277357093131777, guid: e2521d42f45f9e842843f70c207b8e78, type: 3}

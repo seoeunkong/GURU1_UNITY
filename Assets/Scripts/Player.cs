@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    
+
     public float speed;
     public float JumpPower;
     bool moving;
@@ -29,7 +31,7 @@ public class Player : MonoBehaviour
     public Transform grenadePos; //발사위치
 
     //스트레스 변수, 최대 스트레스
-    int Stress;
+    public int Stress;
     public int maxStress;
 
     //슬라이더 
@@ -58,6 +60,18 @@ public class Player : MonoBehaviour
     private Camera camera;
     CharacterController cc; //캐릭터 컨트롤러 변수
 
+    //이펙트 UI 오브젝트
+    public GameObject hitEffect;
+
+    //소리관련 변수
+    public AudioClip audioGun;
+    //public AudioClip audioGrenade;
+    public AudioClip audioItem;
+    public AudioClip audioWeapon;
+    public AudioClip audioHurt;
+    AudioSource audioSource;
+
+
     void Awake()
     {
        // rigid = GetComponent<Rigidbody>();
@@ -66,11 +80,45 @@ public class Player : MonoBehaviour
         camera = Camera.main;
 
         cc = GetComponent<CharacterController>();
+        /*
+        gameObject1 = GameObject.Find("Fire_Gazer_1");
+        gameObject2 = GameObject.Find("Fire_Gazer_2");
+        gameObject3 = GameObject.Find("Fire_Gazer_3");
+        gameObject4 = GameObject.Find("Fire_Gazer_4");
+        */
 
         //실험용 50
-        Stress = 50;
+        Stress = 0;
         //Stress=0;
+
+        this.audioSource = GetComponent<AudioSource>();
     }
+
+    void PlaySound(string action)
+    {
+        switch (action)
+        {
+            case "GUN":
+                audioSource.clip = audioGun;
+                break;
+            //case "GRENADE":
+               //audioSource.clip = audioGrenade;
+                //break;
+            case "ITEM":
+                audioSource.clip = audioItem;
+                break;
+            case "WEAPON":
+                audioSource.clip = audioWeapon;
+                break;
+            case "HURT":
+                audioSource.clip = audioHurt;
+                break;
+        }
+        audioSource.Play();
+
+    }
+
+
 
     void FixedUpdate() //카메라 떨림을 방지하기 위한 Update함수
     {
@@ -83,6 +131,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        
 
         Swap();
         GetInput();
@@ -94,6 +143,8 @@ public class Player : MonoBehaviour
         
         //슬라이더의 value를 스트레스 비율로 적용한다
         stressSlider.value = (float)Stress / (float)maxStress;
+
+        //myStress(); //공격받을때의 스트레스
     }
 
 
@@ -251,9 +302,10 @@ public class Player : MonoBehaviour
                 equipWeapon.Use();
 
             anim.SetTrigger("doShot");
+            PlaySound("GUN");
         }
+        
 
-   
     }
 
     void Cross() //조준선
@@ -302,17 +354,19 @@ public class Player : MonoBehaviour
                 Destroy(nearWeapon);
             }
         }
+        
     }
 
     //플레이어가 Floor로 태그된 물체와 닿으면 착지하는 모션을 멈춤
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Floor")
+        /*
+        if (collision.gameObject.tag == "Enemy") //닿은 물체가 적이라면
         {
-            anim.SetBool("isJump", true);
-            isJump = false;
+            Debug.Log("stress");       
+           
         }
-
+       */
     }
 
     //플레이어가 아이템이라고 태그된 물체와 닿으면 일어나는 일
@@ -336,8 +390,15 @@ public class Player : MonoBehaviour
                         Stress = 0;
                     break;
             }
+            PlaySound("ITEM");
             //아이템은 닿으면 사라짐
             Destroy(other.gameObject);
+        }
+
+        if (other.tag == "Grenade")
+        {
+            hasGrenade++;
+            PlaySound("WEAPON");
         }
     }
 
@@ -346,14 +407,12 @@ public class Player : MonoBehaviour
         if (other.tag == "Weapon"|| other.tag == "Grenade")
         {   
             nearWeapon = other.gameObject;
+            PlaySound("WEAPON");
         }
 
-        if (other.tag == "Grenade")
-        {
-            hasGrenade++;
-           
-        }
-       
+        
+        
+
     }
 
     void OnTriggerExit(Collider other) //무기 콜라이더에서 빠져나오면
@@ -369,10 +428,77 @@ public class Player : MonoBehaviour
     public void OnDamage(int value)
     {
         Stress += value;
-        if (Stress> 0)
+        if (Stress>100)
         {
             Stress = 100;
+            
         }
-        
+
+        else
+        {
+            PlaySound("HURT");
+            StartCoroutine(HitEffect());
+        }
+        IEnumerator HitEffect()
+        {
+            //1.이펙트를 켠다(활성화)
+            hitEffect.SetActive(true);
+
+            //2.0.3초를 기다린다
+            yield return new WaitForSeconds(0.3f);
+
+            //3.이펙트를 끈다(비활성화 시킨다)
+            hitEffect.SetActive(false);
+
+        }
+
     }
+
+    /*
+    void myStress() //플레이어의 스트레스 수치
+    {
+        if (gameObject1 != null) //죽은 몬스터는 대상이 아님
+        {
+            enemy1 = gameObject1.GetComponent<Enemy_stage1>();
+            
+        }
+        //else
+            //return;
+        if (gameObject2 != null) //죽은 몬스터는 대상이 아님
+        {
+            enemy2 = gameObject2.GetComponent<Enemy_stage1>();
+
+        }
+        //else
+        // return;
+      
+        if (gameObject3 != null) //죽은 몬스터는 대상이 아님
+        {
+            enemy3 = gameObject3.GetComponent<Enemy_stage1>();
+
+        }
+        else
+           return;
+        if (gameObject4 != null) //죽은 몬스터는 대상이 아님
+       {
+            enemy4 = gameObject4.GetComponent<Enemy_stage1>();
+
+       }
+        //else
+         //return;
+
+
+        //stage1 몬스터
+
+        if ((enemy1.attack == true|| enemy2.attack == true|| enemy3.attack == true|| enemy4.attack == true)) //몬스터가 attack이라는 모션을 취하는 동시에 몬스터와 접촉을 해야 공격을 받음
+        {
+            OnDamage(enemy1.attackPower);
+            if (enemy4.attack == true)
+                Debug.Log("df");
+        }
+
+        
+
+    }
+    */
 }
