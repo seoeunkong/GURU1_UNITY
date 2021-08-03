@@ -17,4 +17,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LOADING_STAGE01.unity
     guid: 9a77e8f4a20324e43941cfbec5e46606
+  - enabled: 1
+    path: Assets/Scenes/GURU_STAGE1.unity
+    guid: 50749511a0c40554b9979f62cab2e0be
+  - enabled: 1
+    path: Assets/Scenes/LOADING_STAGE02.unity
+    guid: 7ca191e22421c1d4ab68920cc0d20eee
+  - enabled: 1
+    path: Assets/Scenes/GURU_STAGE02.unity
+    guid: e2011c951d9dee446b5e62083da3e971
   m_configObjects: {}
