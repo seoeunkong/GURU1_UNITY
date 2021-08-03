@@ -168,6 +168,7 @@ public class Player : MonoBehaviour
         }
         else
             moving = false;
+       
 
         moveVec = new Vector3(hAxis, 0, vAxis).normalized;
 
@@ -189,7 +190,8 @@ public class Player : MonoBehaviour
        
         // moveVec == Vector3.zero
         anim.SetBool("isRun", moving);
-       // anim.SetBool("isWalk", wDown);
+        // anim.SetBool("isWalk", wDown);
+        Debug.Log(transform.position);
     }
     
     //플레이어 점프하게 하는 함수

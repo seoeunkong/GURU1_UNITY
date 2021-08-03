@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     }
 
     public GameState gState;
-
+    AudioSource BG;
     public Text stateLabel;
 
     GameObject player;
@@ -97,6 +97,8 @@ public class GameManager : MonoBehaviour
     {
         gState = GameState.Pause;
         Time.timeScale = 0;
+        BG=GameObject.Find("Main Camera").GetComponent<AudioSource>();
+        BG.Pause();
         optionUI.SetActive(true);
     }
 
@@ -104,6 +106,8 @@ public class GameManager : MonoBehaviour
     {
         gState = GameState.Run;
         Time.timeScale = 1.0f;
+        BG=GameObject.Find("Main Camera").GetComponent<AudioSource>();
+        BG.Play();
         optionUI.SetActive(false);
     }
 

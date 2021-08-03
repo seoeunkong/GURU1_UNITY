@@ -80,6 +80,9 @@ public class Enemy_stage3 : MonoBehaviour
 
     public bool attack; //공격여부
 
+    public GameObject dust; //몬스터가 죽었을 때 나타나는 먼지 파티클
+    public GameObject blood; //총에 맞았을 때 나타나는 피
+
 
     void Start()
     {
@@ -366,11 +369,16 @@ public class Enemy_stage3 : MonoBehaviour
         // 그렇지 않다면,
         else
         {
+            GameObject go = Instantiate(dust); //먼지 파티클(피격효과)
+            go.transform.position = transform.position;
+
             // 상태를 사망 상태로 전환한다.
             enemyState = EnemyState.Die;
             print("상태 전환 : Any state -> Die");
             anim.SetTrigger("Die");
             Die();
+
+            Destroy(go, 5.0f);
         }
 
     }
@@ -383,6 +391,10 @@ public class Enemy_stage3 : MonoBehaviour
         {
             gunDamage = true;
             Debug.Log("내데미지" + currentMonster);
+
+            GameObject go = Instantiate(blood); //피(피격효과)
+            go.transform.position = collision.transform.position;
+            Destroy(go, 1.0f);
         }
 
 
