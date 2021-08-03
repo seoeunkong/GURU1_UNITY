@@ -24,9 +24,15 @@ public class GameManager : MonoBehaviour
     // PlayerMove playerM;
     public GameObject[] monster;
     int win = 0;
+    public int index_num; //æ¿ ¿Œµ¶Ω∫
 
     public static GameManager gm;
+    public static int Num;
     public GameObject optionUI;
+
+    public GameObject stage_clear;
+
+    public GameObject howto;
 
     private void Awake()
     {
@@ -38,6 +44,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        howto.SetActive(false);
+        stage_clear.SetActive(false);
         gState = GameState.Ready;
         StartCoroutine(GameStart());
         player = GameObject.Find("Player");
@@ -66,7 +74,7 @@ public class GameManager : MonoBehaviour
             //stateLabel.text = "Game over....";
             // stateLabel.color = new Color32(255, 0, 0, 255);
             gState = GameState.GameOver;
-            Debug.Log("gameOver");
+            SceneManager.LoadScene("GAMEOVER");
         }
 
 
@@ -89,9 +97,27 @@ public class GameManager : MonoBehaviour
         {
             gState = GameState.StageClear;
             Debug.Log("gameclear");
+            player.SetActive(false);
+            StartCoroutine(WaitForIt());
+
+
 
         }
     }
+
+    IEnumerator WaitForIt()
+    {
+        player.SetActive(false);
+        stage_clear.SetActive(true);
+        yield return new WaitForSeconds(2.0f);
+        if (SceneManager.GetActiveScene().name == "GURU_STAGE1") //«ˆ¿Á  æ¿¿Ã Ω∫≈◊¿Ã¡ˆ1¿Ã∂Û∏È
+        {
+            SceneManager.LoadScene("LOADING_STAGE02");
+        }
+        else
+            SceneManager.LoadScene("LOADING_STAGE03");
+    }
+
 
     public void OpenOptionWindow()
     {
@@ -120,6 +146,12 @@ public class GameManager : MonoBehaviour
     public void GameQuit()
     {
         Application.Quit();
+    }
+
+    public void HowToPlay()
+    {
+        howto.SetActive(true);
+      
     }
 
 

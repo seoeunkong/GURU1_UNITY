@@ -133,7 +133,11 @@ public class Player : MonoBehaviour
     void Update()
     {
         
-
+        if (GameManager.gm.gState != GameManager.GameState.Run)
+        {
+            return;
+        }
+        
         Swap();
         GetInput();
         Interaction_W();//무기 상호작용
