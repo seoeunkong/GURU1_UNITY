@@ -13,6 +13,7 @@ public class PlayerRotate : MonoBehaviour
 
     void Update()
     {
+    
         //사용자의 마우스 입력을 받아서 물체를 상하좌우로 회전시키고 싶다
         //1. 사용자의 마우스 입력을 받는다
         float mouse_X = Input.GetAxis("Mouse X");

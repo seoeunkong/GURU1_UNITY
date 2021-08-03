@@ -121,12 +121,8 @@ public class Enemy_stage1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.gm.gState != GameManager.GameState.Run)
-        {
-            return;
-        }
-
-        switch (enemyState)
+       
+        switch(enemyState)
         {
             case EnemyState.Idle:
                 Idle();             
