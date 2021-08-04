@@ -114,13 +114,21 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene("LOADING_STAGE02");
         }
-        else
+        else if (SceneManager.GetActiveScene().name == "GURU_STAGE02")
+        {
             SceneManager.LoadScene("LOADING_STAGE03");
+        }
+        else if (SceneManager.GetActiveScene().name == "GURU_STAGE03")
+        {
+            yield return new WaitForSeconds(3.0f);
+            SceneManager.LoadScene("GURU_CINEMA");
+        }
     }
 
 
     public void OpenOptionWindow()
     {
+        stateLabel.text = "";
         gState = GameState.Pause;
         Time.timeScale = 0;
         BG=GameObject.Find("Main Camera").GetComponent<AudioSource>();
@@ -135,6 +143,7 @@ public class GameManager : MonoBehaviour
         BG=GameObject.Find("Main Camera").GetComponent<AudioSource>();
         BG.Play();
         optionUI.SetActive(false);
+        
     }
 
     public void GameRestart()

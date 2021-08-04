@@ -69,13 +69,15 @@ public class Player : MonoBehaviour
     public AudioClip audioItem;
     public AudioClip audioWeapon;
     public AudioClip audioHurt;
+
     AudioSource audioSource;
 
-  
-
+    
     void Awake()
     {
-       // rigid = GetComponent<Rigidbody>();
+        
+        
+        // rigid = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
 
         camera = Camera.main;

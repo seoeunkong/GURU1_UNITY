@@ -9,12 +9,22 @@ public class GameOver_restart : MonoBehaviour
     int sceneIndex;
     public GameObject num;
 
-   
+    private AudioSource buttonClick;
+    
+
+    void Start()
+    {
+        buttonClick = GetComponent<AudioSource>();
+        buttonClick.Stop();
+    }
+
+
     void Update()
     {
         
         if (Input.GetMouseButtonDown(0)) //버튼을 누르면
         {
+            buttonClick.Play();
             Time.timeScale = 1.0f;
 
             if ((SceneIndex.Num) == 4)
@@ -25,7 +35,7 @@ public class GameOver_restart : MonoBehaviour
             {
                 SceneManager.LoadScene("GURU_STAGE02");
             }
-            else if ((SceneIndex.Num) == 6)
+            else if ((SceneIndex.Num) == 9)
             {
                 SceneManager.LoadScene("GURU_STAGE03");
             }

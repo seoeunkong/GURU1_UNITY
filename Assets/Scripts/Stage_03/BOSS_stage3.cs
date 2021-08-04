@@ -120,7 +120,11 @@ public class BOSS_stage3 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (GameManager.gm.gState != GameManager.GameState.Run)
+        {
+            return;
+        }
+
 
         /*
         for (int i = 0; i < enemy3.Length; i++) {
@@ -134,8 +138,8 @@ public class BOSS_stage3 : MonoBehaviour
         if (bossActive == true) //enemy_stage3 몬스터들이 다 죽은 후 실행
         {
         */
-            //gameObject.SetActive(true);
-            switch (enemyState)
+        //gameObject.SetActive(true);
+        switch (enemyState)
             {
                 case EnemyState.Idle:
                     Idle();
@@ -201,17 +205,18 @@ public class BOSS_stage3 : MonoBehaviour
         if (Vector3.Distance(player.transform.position, transform.position) > attackDistance)
         {
             // 이동 방향을 구한다.
-            // Vector3 dir = (player.transform.position - transform.position).normalized;
+             Vector3 dir = (player.transform.position - transform.position).normalized;
 
             // 나의 전방 방향을 이동 방향과 일치시킨다.
-            // transform.forward = dir;
+             transform.forward = dir;
 
             // 캐릭터 컨트롤러로 이동 방향으로 이동한다.
-            // cc.Move(dir * moveSpeed * Time.deltaTime);
+             cc.Move(dir * moveSpeed * Time.deltaTime);
 
 
             // 내브메쉬 에이전트를 이용하여 타겟 방향으로 이동한다.
             smith.SetDestination(player.transform.position);
+            Debug.Log("hey"+transform.position);
             smith.stoppingDistance = attackDistance;
 
 
