@@ -13,14 +13,14 @@ public class LoadingDirector_01 : MonoBehaviour
         buttonClick = GetComponent<AudioSource>();
         buttonClick.Stop();
     }
-    void Update()
+    public void Click()
     {
-        if (Input.GetMouseButtonDown(0)) //버튼을 누르면
-        {
+       
+            
             buttonClick.Play();
             SceneManager.LoadScene("GURU_STAGE1"); //다음 씬으로 이동
            
-        }
+        
 
     }
 }

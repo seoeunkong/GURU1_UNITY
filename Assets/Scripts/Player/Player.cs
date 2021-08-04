@@ -90,9 +90,9 @@ public class Player : MonoBehaviour
         gameObject4 = GameObject.Find("Fire_Gazer_4");
         */
 
-        //½ÇÇè¿ë 50
+
         Stress = 0;
-        //Stress=0;
+ 
 
         this.audioSource = GetComponent<AudioSource>();
     }
@@ -104,9 +104,6 @@ public class Player : MonoBehaviour
             case "GUN":
                 audioSource.clip = audioGun;
                 break;
-            //case "GRENADE":
-               //audioSource.clip = audioGrenade;
-                //break;
             case "ITEM":
                 audioSource.clip = audioItem;
                 break;

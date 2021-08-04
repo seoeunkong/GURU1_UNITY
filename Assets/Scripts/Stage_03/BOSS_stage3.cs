@@ -6,10 +6,10 @@ using UnityEngine.AI;
 
 public class BOSS_stage3 : MonoBehaviour
 {
-    // 상태 별로 에너미가 상황에 맞는 행동을 하게 하고 싶다!
+    // 상태 별로 에너미가 상황에 맞는 행동 실행
     // 1. 에너미의 상태
     // 2. 상태별 함수
-    // 3. switch문을 통해서 상태를 체크하고, 상태별 함수를 실행한다.
+    // 3. switch문을 통해서 상태를 체크, 상태별 함수를 실행
 
 
     enum EnemyState
@@ -126,19 +126,7 @@ public class BOSS_stage3 : MonoBehaviour
         }
 
 
-        /*
-        for (int i = 0; i < enemy3.Length; i++) {
-
-            if (enemy3[i] == null)
-            {
-                bossActive= true;
-            }
-        }
-
-        if (bossActive == true) //enemy_stage3 몬스터들이 다 죽은 후 실행
-        {
-        */
-        //gameObject.SetActive(true);
+       
         switch (enemyState)
             {
                 case EnemyState.Idle:
@@ -150,11 +138,7 @@ public class BOSS_stage3 : MonoBehaviour
                 case EnemyState.Attack:
                     Attack();
                     break;
-                /*
-            case EnemyState.Return:
-                Return();
-                break;
-                */
+               
                 case EnemyState.Damaged:
                     //  Damaged();
                     break;
@@ -190,15 +174,7 @@ public class BOSS_stage3 : MonoBehaviour
     }
     void Move()
     {
-        /*
-        // 만일 이동 거리 밖이라면...
-        if(Vector3.Distance(originPos, transform.position) > moveDistance)
-        {
-            // 상태를 복귀 상태로 전환한다.
-            enemyState = EnemyState.Return;
-            print("상태 전환 : Move -> Return");
-        }
-        */
+        
 
 
         // 만일, 공격 범위 밖이라면...
@@ -299,9 +275,7 @@ public class BOSS_stage3 : MonoBehaviour
         // 만일, 원래 위치에 도달하지 않았다면, 그 방향으로 이동한다.
         if (Vector3.Distance(originPos, transform.position) > 0.1f)
         {
-            // Vector3 dir = (originPos - transform.position).normalized;
-            // transform.forward = dir;
-            // cc.Move(dir * moveSpeed * Time.deltaTime);
+            
 
             smith.SetDestination(originPos);
             smith.stoppingDistance = 0;

@@ -27,18 +27,8 @@ public class CamRotate : MonoBehaviour
         my += mouse_Y * rotSpeed * Time.deltaTime;
         my = Mathf.Clamp(my, -rotLimit, rotLimit);
 
-        //2. 입력받은 값을 이용해서 회전 방향을 결정한다
-        //Vector3 dir = new Vector3(-mouse_Y, mouse_X, 0);
-        //dir.Normalize();
-
-        //3. 결정된 회전 방향을 물체의 회전 속성에 대입한다
-        // r=r0+vt
-        //transform.eulerAngles += dir * rotSpeed * Time.deltaTime;
         transform.eulerAngles = new Vector3(-my, mx, 0);
 
-        // 4. 회전 값 중에서 x축 값을 -90~90도 사이로 제한
-        //Vector3 rot = transform.eulerAngles;
-        //rot.x = Mathf.Clamp(rot.x,- 90.0f, 90.0f);
-        //transform.eulerAngles = rot;
+
     }
 }

@@ -6,11 +6,10 @@ using UnityEngine.AI;
 
 public class Enemy_stage3 : MonoBehaviour
 {
-    // 상태 별로 에너미가 상황에 맞는 행동을 하게 하고 싶다!
+    // 상태 별로 에너미가 상황에 맞는 행동 실행
     // 1. 에너미의 상태
     // 2. 상태별 함수
-    // 3. switch문을 통해서 상태를 체크하고, 상태별 함수를 실행한다.
-
+    // 3. switch문을 통해서 상태를 체크, 상태별 함수를 실행
 
     enum EnemyState
     {
@@ -133,16 +132,12 @@ public class Enemy_stage3 : MonoBehaviour
             case EnemyState.Attack:
                 Attack();
                 break;
-            /*
-        case EnemyState.Return:
-            Return();
-            break;
-            */
+            
             case EnemyState.Damaged:
-                //  Damaged();
+                
                 break;
             case EnemyState.Die:
-                // Die();
+                
                 break;
 
         }
@@ -159,7 +154,7 @@ public class Enemy_stage3 : MonoBehaviour
 
     void Idle()
     {
-        // 만일, 플레이어와의 거리가 감지 범위 이내라면...
+        // 만약, 플레이어와의 거리가 감지 범위 이내라면...
         if (Vector3.Distance(player.transform.position, transform.position) <= findDistance)
         {
             // 상태를 이동 상태로 변경한다.
@@ -172,28 +167,13 @@ public class Enemy_stage3 : MonoBehaviour
     }
     void Move()
     {
-        /*
-        // 만일 이동 거리 밖이라면...
-        if(Vector3.Distance(originPos, transform.position) > moveDistance)
-        {
-            // 상태를 복귀 상태로 전환한다.
-            enemyState = EnemyState.Return;
-            print("상태 전환 : Move -> Return");
-        }
-        */
+        
 
 
-        // 만일, 공격 범위 밖이라면...
+        // 만약, 공격 범위 밖이라면...
         if (Vector3.Distance(player.transform.position, transform.position) > attackDistance)
         {
-            // 이동 방향을 구한다.
-            // Vector3 dir = (player.transform.position - transform.position).normalized;
-
-            // 나의 전방 방향을 이동 방향과 일치시킨다.
-            // transform.forward = dir;
-
-            // 캐릭터 컨트롤러로 이동 방향으로 이동한다.
-            // cc.Move(dir * moveSpeed * Time.deltaTime);
+            
 
 
             // 내브메쉬 에이전트를 이용하여 타겟 방향으로 이동한다.
@@ -222,10 +202,10 @@ public class Enemy_stage3 : MonoBehaviour
     }
     void Attack()
     {
-        // 만일, 플레이어가 공격 범위 이내라면...
+        // 만약, 플레이어가 공격 범위 이내라면...
         if (Vector3.Distance(player.transform.position, transform.position) <= attackDistance)
         {
-            // 만일, 현재 대기 시간이 공격 대기 시간을 넘어갔다면...
+            // 만약, 현재 대기 시간이 공격 대기 시간을 넘어갔다면...
             if (currentTime >= attackDelayTime)
             {
                 currentTime = 0;
@@ -277,12 +257,10 @@ public class Enemy_stage3 : MonoBehaviour
     // 복귀 시 행동 함수
     void Return()
     {
-        // 만일, 원래 위치에 도달하지 않았다면, 그 방향으로 이동한다.
+        // 만약, 원래 위치에 도달하지 않았다면, 그 방향으로 이동한다.
         if (Vector3.Distance(originPos, transform.position) > 0.1f)
         {
-            // Vector3 dir = (originPos - transform.position).normalized;
-            // transform.forward = dir;
-            // cc.Move(dir * moveSpeed * Time.deltaTime);
+            
 
             smith.SetDestination(originPos);
             smith.stoppingDistance = 0;
@@ -352,7 +330,7 @@ public class Enemy_stage3 : MonoBehaviour
     // 데미지 처리 함수
     public void HitEnemy(int value)
     {
-        // 만일, 나의 상태가 피격, 복귀, 사망 상태일 때에는 함수를 종료한다.
+        // 만약, 나의 상태가 피격, 복귀, 사망 상태일 때에는 함수를 종료한다.
         if (enemyState == EnemyState.Damaged || enemyState == EnemyState.Return || enemyState == EnemyState.Die)
         {
             return;

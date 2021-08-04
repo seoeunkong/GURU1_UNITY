@@ -10,7 +10,6 @@ public class Item : MonoBehaviour
     public int value;
 
     //아이템 제자리에서 회전하게 만드는 함수
-    //속도 더 높이시려면 숫자 올리시면 되어요!
     private void Update()
     {
         transform.Rotate(Vector3.up * 25 * Time.deltaTime);
