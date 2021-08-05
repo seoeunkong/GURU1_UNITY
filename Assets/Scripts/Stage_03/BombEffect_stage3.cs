@@ -19,7 +19,7 @@ public class BombEffect_stage3 : MonoBehaviour
     //자신을 제거
     void OnCollisionEnter(Collision collision)
     {
-        //= GameObject.Find("BossMonster")
+       
 
         GameObject go = Instantiate(explosion);
         go.transform.position = transform.position;
@@ -30,10 +30,8 @@ public class BombEffect_stage3 : MonoBehaviour
         Collider[] enemies = Physics.OverlapSphere(transform.position, explosionRadius, 1 << 10);
         Collider[] enemies2 = Physics.OverlapSphere(transform.position, explosionRadius, 1 << 9);
         Destroy(gameObject);
-        //수류탄 데미지를 입힌다.
-        //BOSS_stage3 b = boss.GetComponent<BOSS_stage3>();
 
-
+        //수류탄 데미지를 입힌다
         for (int i = 0; i < enemies.Length+1; i++)
         {
             if (i < enemies.Length)

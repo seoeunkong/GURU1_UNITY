@@ -14,13 +14,15 @@ public class GameOver_Quit : MonoBehaviour
     }
 
 
-    void Update()
+
+    public void Click()
     {
-        if (Input.GetMouseButtonDown(0)) //버튼을 누르면
-        {
-            buttonClick.Play();
-            Application.Quit();
-        }
+
+
+        buttonClick.Play();
+        Application.Quit();
+
+
 
     }
 }

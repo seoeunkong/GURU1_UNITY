@@ -113,7 +113,7 @@ public class Enemy_stage3 : MonoBehaviour
 
     }
 
-    // Update is called once per frame
+   
     void Update()
     {
         if (GameManager.gm.gState != GameManager.GameState.Run)
@@ -159,7 +159,6 @@ public class Enemy_stage3 : MonoBehaviour
         {
             // 상태를 이동 상태로 변경한다.
             enemyState = EnemyState.Move;
-            print("상태 전환 : Idle -> Move");
             anim.SetTrigger("IdleToMove");
         }
 
@@ -187,7 +186,7 @@ public class Enemy_stage3 : MonoBehaviour
         {
             // 상태를 공격 상태로 변경한다.
             enemyState = EnemyState.Attack;
-            print("상태 전환 : Move -> Attack");
+           
 
             anim.SetTrigger("MoveToAttackDelay");
 
@@ -213,7 +212,7 @@ public class Enemy_stage3 : MonoBehaviour
                 if (currentTime == 0)
                     attack = true;
                 // 플레이어를 공격한다.
-                print("공격!");
+                
                 anim.SetTrigger("StartAttack");
 
             }
@@ -232,7 +231,6 @@ public class Enemy_stage3 : MonoBehaviour
             // 상태를 이동 상태로 전환한다.
             enemyState = EnemyState.Move;
 
-            print("상태 전환 : Attack -> Move");
             // attack = false;
             anim.SetTrigger("AttackToMove");
 
@@ -247,7 +245,7 @@ public class Enemy_stage3 : MonoBehaviour
     {
         if (attack == true) //에너미들이 공격 자세를 취한 경우
         {
-            Debug.Log("hit");
+           
             Player pm = player.GetComponent<Player>();
             pm.OnDamage(attackPower);
         }
@@ -280,7 +278,6 @@ public class Enemy_stage3 : MonoBehaviour
 
 
             enemyState = EnemyState.Idle;
-            print("상태 전환 : Return -> Idle");
             anim.SetTrigger("MoveToIdle");
 
             // 체력을 최대치로 회복한다.
@@ -302,8 +299,7 @@ public class Enemy_stage3 : MonoBehaviour
 
         // 상태를 이동 상태로 전환한다.
         enemyState = EnemyState.Move;
-        print("상태 전환 : Damaged -> Move");
-
+       
     }
 
     // 사망 시 행동 함수
@@ -344,7 +340,7 @@ public class Enemy_stage3 : MonoBehaviour
         {
             // 상태를 피격 상태로 전환한다
             enemyState = EnemyState.Damaged;
-            print("상태 전환 : Any state -> Damaged");
+           
             anim.SetTrigger("Damaged");
             Damaged();
 
@@ -357,11 +353,11 @@ public class Enemy_stage3 : MonoBehaviour
 
             // 상태를 사망 상태로 전환한다.
             enemyState = EnemyState.Die;
-            print("상태 전환 : Any state -> Die");
+           
             anim.SetTrigger("Die");
             Die();
 
-            Destroy(go, 5.0f);
+            Destroy(go, 4.0f);
         }
 
     }
@@ -373,7 +369,7 @@ public class Enemy_stage3 : MonoBehaviour
         if (collision.gameObject.tag == "Weapon") //만약 몬스터와 닿은 물체가 총알이라면
         {
             gunDamage = true;
-            Debug.Log("내데미지" + currentMonster);
+           
 
             GameObject go = Instantiate(blood); //피(피격효과)
             go.transform.position = collision.transform.position;

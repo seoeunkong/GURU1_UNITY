@@ -12,15 +12,16 @@ public class Ending_restart : MonoBehaviour
         buttonClick = GetComponent<AudioSource>();
         buttonClick.Stop();
     }
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0)) //버튼을 누르면
-        {
-            buttonClick.Play();
-            SceneManager.LoadScene(0);
-            
+   
 
-        }
+    public void Click()
+    {
+
+
+        buttonClick.Play();
+        SceneManager.LoadScene("MainScene_01");
+
+
 
     }
 }

@@ -19,29 +19,27 @@ public class GameOver_restart : MonoBehaviour
     }
 
 
-    void Update()
+    
+
+    public void Click()
     {
-        
-        if (Input.GetMouseButtonDown(0)) //버튼을 누르면
+        buttonClick.Play();
+        Time.timeScale = 1.0f;
+
+        if ((SceneIndex.Num) == 4)
         {
-            buttonClick.Play();
-            Time.timeScale = 1.0f;
-
-            if ((SceneIndex.Num) == 4)
-            {
-                SceneManager.LoadScene("GURU_STAGE1");
-            }
-            else if ((SceneIndex.Num) == 6)
-            {
-                SceneManager.LoadScene("GURU_STAGE02");
-            }
-            else if ((SceneIndex.Num) == 9)
-            {
-                SceneManager.LoadScene("GURU_STAGE03");
-            }
-
-
+            SceneManager.LoadScene("GURU_STAGE1");
         }
+        else if ((SceneIndex.Num) == 6)
+        {
+            SceneManager.LoadScene("GURU_STAGE02");
+        }
+        else if ((SceneIndex.Num) == 9)
+        {
+            SceneManager.LoadScene("GURU_STAGE03");
+        }
+
+
 
     }
 }

@@ -12,8 +12,6 @@ public class Weapon : MonoBehaviour
     //ÃÑ¾Ë,ÅºÇÇ°ü·Ã º¯¼ö
     public Transform bulletPos;
     public GameObject bullet;
-    // public Transform bulletCasePos;
-    // public GameObject bulletCase;
 
     public Transform targetPosition;
 

@@ -21,13 +21,13 @@ public class ImageController : MonoBehaviour
 
     public bool[] hasWeapons;
 
-    // Start is called before the first frame update
+   
     void Start()
     {
         gameObject = GameObject.Find("Player");
     }
 
-    // Update is called once per frame
+   
     void Update()
     {
         Player player = gameObject.GetComponent<Player>(); //Player스크립트에서 요소를 갖고 옴.

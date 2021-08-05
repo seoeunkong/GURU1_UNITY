@@ -83,13 +83,6 @@ public class Player : MonoBehaviour
         camera = Camera.main;
 
         cc = GetComponent<CharacterController>();
-        /*
-        gameObject1 = GameObject.Find("Fire_Gazer_1");
-        gameObject2 = GameObject.Find("Fire_Gazer_2");
-        gameObject3 = GameObject.Find("Fire_Gazer_3");
-        gameObject4 = GameObject.Find("Fire_Gazer_4");
-        */
-
 
         Stress = 0;
  
@@ -124,8 +117,7 @@ public class Player : MonoBehaviour
     {
         
         Move();
-       // Jump();
-       
+      
 
     }
 
@@ -148,7 +140,7 @@ public class Player : MonoBehaviour
         //슬라이더의 value를 스트레스 비율로 적용한다
         stressSlider.value = (float)Stress / (float)maxStress;
 
-        //myStress(); //공격받을때의 스트레스
+       
     }
 
 
@@ -157,7 +149,6 @@ public class Player : MonoBehaviour
         hAxis = Input.GetAxisRaw("Horizontal");
         vAxis = Input.GetAxisRaw("Vertical");
         wDown = Input.GetButton("Walk");
-        jDown = Input.GetButtonDown("Jump");
         sDown1 = Input.GetButtonDown("sDown1");
         sDown2 = Input.GetButtonDown("sDown2");
     }
@@ -186,28 +177,13 @@ public class Player : MonoBehaviour
         else
             transform.position += moveVec * speed * Time.deltaTime;
 
-
-        //transform.position += moveVec * speed * Time.deltaTime;
         cc.Move(moveVec * speed * Time.deltaTime);
-
-       
-        // moveVec == Vector3.zero
+      
         anim.SetBool("isRun", moving);
-        // anim.SetBool("isWalk", wDown);
-        Debug.Log(transform.position);
+       
     }
     
-    //플레이어 점프하게 하는 함수
-    void Jump()
-    {
-        if(jDown&&!isJump)
-        {
-            rigid.AddForce(Vector3.up * JumpPower, ForceMode.Impulse);
-            anim.SetBool("isJump",false);
-            anim.SetTrigger("doJump");
-            isJump = true;
-        }
-    }
+    
     void Swap() //무기 교체
     {
         // 무기를 갖고 있지 않는 상태에서 무기가 활성화되는 것을 방지
@@ -229,8 +205,7 @@ public class Player : MonoBehaviour
             weaponIndex = 0;
             crossHair_G = true;
             crossHair_S = false;
-           // anim.SetBool("isShot", true); // 총 잡는 모습 활성화
-
+         
         }
         
 
@@ -241,7 +216,7 @@ public class Player : MonoBehaviour
             weaponIndex = 1;
             crossHair_G = false;
             crossHair_S = false;
-           // anim.SetBool("isShot", false); //총 잡는 모습 비활성화
+         
         }
 
         //1,2를 누르면 무기가 보이게 함.
@@ -251,7 +226,7 @@ public class Player : MonoBehaviour
             {
                 equipWeapon.gameObject.SetActive(false); //전에 손에 쥐고 있었던 무기를 비활성화함
             }
-            //anim.SetBool("isShot", true);
+           
             equipWeaponIndex = weaponIndex;
             equipWeapon = weapons[weaponIndex].GetComponent<Weapon>();
             equipWeapon.gameObject.SetActive(true); // 손에 쥐고 있는 무기를 활성화하여 보이게함.
@@ -276,8 +251,7 @@ public class Player : MonoBehaviour
 
 
         if (Input.GetMouseButtonDown(0) && (grenade == true)) //마우스 좌클릭과 동시에 플레이어한테 1개 이상의 수류탄이 있는 경우
-        {
-            //anim.SetBool("isShot", false);
+        { 
 
             GameObject bomb = Instantiate(grenadeObj);
 
@@ -363,17 +337,7 @@ public class Player : MonoBehaviour
         
     }
 
-    //플레이어가 Floor로 태그된 물체와 닿으면 착지하는 모션을 멈춤
-    private void OnCollisionEnter(Collision collision)
-    {
-        /*
-        if (collision.gameObject.tag == "Enemy") //닿은 물체가 적이라면
-        {
-            Debug.Log("stress");       
-           
-        }
-       */
-    }
+   
 
     //플레이어가 아이템이라고 태그된 물체와 닿으면 일어나는 일
     private void OnTriggerEnter(Collider other)
@@ -460,51 +424,4 @@ public class Player : MonoBehaviour
 
     }
 
-    /*
-    void myStress() //플레이어의 스트레스 수치
-    {
-        if (gameObject1 != null) //죽은 몬스터는 대상이 아님
-        {
-            enemy1 = gameObject1.GetComponent<Enemy_stage1>();
-            
-        }
-        //else
-            //return;
-        if (gameObject2 != null) //죽은 몬스터는 대상이 아님
-        {
-            enemy2 = gameObject2.GetComponent<Enemy_stage1>();
-
-        }
-        //else
-        // return;
-      
-        if (gameObject3 != null) //죽은 몬스터는 대상이 아님
-        {
-            enemy3 = gameObject3.GetComponent<Enemy_stage1>();
-
-        }
-        else
-           return;
-        if (gameObject4 != null) //죽은 몬스터는 대상이 아님
-       {
-            enemy4 = gameObject4.GetComponent<Enemy_stage1>();
-
-       }
-        //else
-         //return;
-
-
-        //stage1 몬스터
-
-        if ((enemy1.attack == true|| enemy2.attack == true|| enemy3.attack == true|| enemy4.attack == true)) //몬스터가 attack이라는 모션을 취하는 동시에 몬스터와 접촉을 해야 공격을 받음
-        {
-            OnDamage(enemy1.attackPower);
-            if (enemy4.attack == true)
-                Debug.Log("df");
-        }
-
-        
-
-    }
-    */
 }

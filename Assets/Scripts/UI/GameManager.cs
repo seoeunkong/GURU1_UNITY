@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     public Text stateLabel;
 
     GameObject player;
-    // PlayerMove playerM;
+    
     public GameObject[] monster;
     int win = 0;
     public int index_num; //æ¿ ¿Œµ¶Ω∫
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(GameStart());
         player = GameObject.Find("Player");
 
-        // playerM = player.GetComponent<PlayerMove>();
+       
     }
 
     IEnumerator GameStart()
@@ -65,14 +65,13 @@ public class GameManager : MonoBehaviour
 
     }
 
-    // Update is called once per frame
+   
     void Update()
     {
         Player player_stress = player.GetComponent<Player>();
         if (player_stress.Stress >= 100)
         {
-            //stateLabel.text = "Game over....";
-            // stateLabel.color = new Color32(255, 0, 0, 255);
+            
             gState = GameState.GameOver;
             SceneManager.LoadScene("GAMEOVER");
         }
@@ -92,11 +91,9 @@ public class GameManager : MonoBehaviour
             }
             
         }
-        Debug.Log(win);
         if (win >= monster.Length)
         {
-            gState = GameState.StageClear;
-            Debug.Log("gameclear");
+            gState = GameState.StageClear;   
             player.SetActive(false);
             StartCoroutine(WaitForIt());
 

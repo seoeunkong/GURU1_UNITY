@@ -6,7 +6,7 @@ public class BillBoard : MonoBehaviour
 {
    
 
-    // Update is called once per frame
+    
     void Update()
     {
         // 메인 카메라의 전방 방향과 나의 전방 방향을 일치시킨다.
